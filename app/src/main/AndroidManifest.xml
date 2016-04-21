@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.td1026.gpsemergencia">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Activity_Main"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity_ConfiguracoesGerais"
+            android:label="@string/title_activity_activity__configuracoes_gerais"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity_DescricaoHospital"
+            android:label="@string/title_activity_activity__descricao_hospital"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity_Historico"
+            android:label="@string/title_activity_activity__historico"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity_Hospitais"
+            android:label="@string/title_activity_activity__hospitais"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <service
+            android:name=".Activity_ServicePrincipal"
+            android:enabled="true"
+            android:exported="true"></service>
+    </application>
+</manifest>

@@ -1,0 +1,79 @@
+#
+# generated on 2016/04/21 09:07:16
+#
+# --table-start--
+dataClass=com.td1026.gpsemergencia.BaseDados.bd_Ocurrencia
+tableName=bd_Ocurencia
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=HoraInicial
+# --field-end--
+# --field-start--
+fieldName=LatLocalInicial
+# --field-end--
+# --field-start--
+fieldName=LonLocalInicial
+# --field-end--
+# --field-start--
+fieldName=HoraChegadaSocorro
+# --field-end--
+# --field-start--
+fieldName=LatLocalChegadaSocorro
+# --field-end--
+# --field-start--
+fieldName=LonLocalChegadaSocorro
+# --field-end--
+# --field-start--
+fieldName=HoraSaidaSocorro
+# --field-end--
+# --field-start--
+fieldName=HoraChegadaHospital
+# --field-end--
+# --field-start--
+fieldName=LatHospitalDestino
+# --field-end--
+# --field-start--
+fieldName=LonHospitalDestino
+# --field-end--
+# --field-start--
+fieldName=HoraFinal
+# --field-end--
+# --field-start--
+fieldName=DistanciaSocorro
+# --field-end--
+# --field-start--
+fieldName=DistanciaHospital
+# --field-end--
+# --field-start--
+fieldName=Enviado
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.td1026.gpsemergencia.BaseDados.bd_Trajecto
+tableName=bd_Trajecto
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=id_ocorrencia
+# --field-end--
+# --field-start--
+fieldName=Data
+# --field-end--
+# --field-start--
+fieldName=Latitude
+# --field-end--
+# --field-start--
+fieldName=Longitude
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
