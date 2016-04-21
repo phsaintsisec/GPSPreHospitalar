@@ -44,7 +44,7 @@ public class BDbackup {
         }
         gravarFicheiro(nova,tar);
     }
-    public static void gravarPosgres (Context t, OcurrenciaActual o) {
+    public static void gravarPosgres (Context t) {
 
 
     }

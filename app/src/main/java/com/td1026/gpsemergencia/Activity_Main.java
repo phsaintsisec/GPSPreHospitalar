@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.td1026.gpsemergencia.BaseDados.BDbackup;
 import com.td1026.gpsemergencia.MetodosAuxiliares.Logs;
 import com.td1026.gpsemergencia.MetodosAuxiliares.Permissoes;
 
@@ -213,7 +214,7 @@ public class Activity_Main extends AppCompatActivity {
             startActivity(i);
         }
         if (id == R.id.menu_guardar) {
-            //BDbackup.gravar(this,Activity_ServicePrincipal.DADOS);
+            BDbackup.gravarPosgres(this);
         }
         return super.onOptionsItemSelected(item);
     }
