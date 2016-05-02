@@ -3,6 +3,7 @@ package com.td1026.gpsemergencia;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -219,7 +220,19 @@ public class Activity_Main extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     //--------------------------------------------------------------------------------------
-
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Logs.fluxo(this.getPackageName(), "onDestroy");
+        //Deixar de receber dados de gps
+        if (locationlistener != null) {
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (!(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+                locationManager.removeUpdates(locationlistener);
+            }
+        }
+    }
 
     //--------------------------------------------------------------------------------------
     //-------------------------------------------Outros Metodos-----------------------------

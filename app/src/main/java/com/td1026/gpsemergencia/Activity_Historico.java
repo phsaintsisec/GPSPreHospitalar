@@ -18,6 +18,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.td1026.gpsemergencia.BaseDados.bd_Ocurrencia;
 import com.td1026.gpsemergencia.BaseDados.bd_Ocurrencia_Helper;
+import com.td1026.gpsemergencia.BaseDados.bd_Trajecto;
 import com.td1026.gpsemergencia.MetodosAuxiliares.Formatos;
 import com.td1026.gpsemergencia.MetodosAuxiliares.Logs;
 
@@ -47,7 +48,7 @@ public class Activity_Historico extends AppCompatActivity {
             //----Ler dados da base de dados
             List<bd_Ocurrencia> lista;
             bd_Ocurrencia_Helper todoOpenDatabaseHelper = OpenHelperManager.getHelper(t, bd_Ocurrencia_Helper.class);
-            Dao<bd_Ocurrencia, Long> todoDao = todoOpenDatabaseHelper.getDao();
+            Dao<bd_Ocurrencia, Long> todoDao = todoOpenDatabaseHelper.getDao_bd_Ocurrencia();
             lista = todoDao.queryForAll();
             if(lista == null)
                 return;
@@ -81,7 +82,7 @@ public class Activity_Historico extends AppCompatActivity {
 
                                                 //Descubrir Item Selecionado
                                                 bd_Ocurrencia_Helper todoOpenDatabaseHelper = OpenHelperManager.getHelper(t, bd_Ocurrencia_Helper.class);
-                                                Dao<bd_Ocurrencia, Long> todoDao = todoOpenDatabaseHelper.getDao();
+                                                Dao<bd_Ocurrencia, Long> todoDao = todoOpenDatabaseHelper.getDao_bd_Ocurrencia();
                                                 aux = todoDao.queryForAll();
                                                 for (int i = 0; i < aux.size(); i++) {
                                                     if (Formatos.getbd_OcurrenciaFormat(aux.get(i)).equals(item)) {
@@ -92,9 +93,18 @@ public class Activity_Historico extends AppCompatActivity {
                                                 //Abrir Janela popup
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(t);
                                                 final int finalIndex = index;
+
+                                                List<bd_Trajecto> lista;
+                                                Dao<bd_Trajecto, Long> todoDaoTrajecto = todoOpenDatabaseHelper.getDao_bd_Trajecto();
+                                                lista = todoDaoTrajecto.queryForEq("id_ocorrencia",aux.get(finalIndex).getId());
+                                                String str = "\n\nPercurso:    (Total)"+ lista.size()+"\n\n";
+                                                for (bd_Trajecto p : lista) {
+                                                    str += p.toString();
+                                                    str += '\n';
+                                                }
                                                 builder
                                                         .setTitle(getString(R.string.lb_DescricaodaOcurrencia))
-                                                        .setMessage(aux.get(finalIndex).toString())
+                                                        .setMessage(aux.get(finalIndex).toString() + str)
                                                         .setIcon(android.R.drawable.ic_dialog_alert)
                                                         .setNeutralButton(getString(R.string.lb_OK), null)
                                                         .show();

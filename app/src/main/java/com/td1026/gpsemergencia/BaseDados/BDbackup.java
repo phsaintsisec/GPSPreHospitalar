@@ -14,8 +14,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Telmo on 31-03-2016.
@@ -24,31 +22,12 @@ public class BDbackup {
 
 
     public static void gravarLocalmente (Context t, OcurrenciaActual o) {
-        List<bd_Trajecto> tar = new ArrayList<>();
-        bd_Ocurrencia nova = new bd_Ocurrencia(o.getOcurrencia());
-        try {
-            bd_Ocurrencia_Helper todoOpenDatabaseHelper = OpenHelperManager.getHelper(t, bd_Ocurrencia_Helper.class);
-            Dao<bd_Ocurrencia, Long> todoDao = todoOpenDatabaseHelper.getDao();
-            todoDao.create(nova);
-
-
-            bd_Trajecto_Helper bd_trajecto_helper = OpenHelperManager.getHelper(t, bd_Trajecto_Helper.class);
-            Dao<bd_Trajecto, Long> todoDao2 = bd_trajecto_helper.getDao();
-            for (Posicao p:o.getPercurso()) {
-                bd_Trajecto nova2 = new bd_Trajecto(nova.getId(), p);
-                todoDao2.create(nova2);
-                tar.add(nova2);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        gravarFicheiro(nova,tar);
+        gravarFicheiro(o);
+        gravarOcurrencia(t,o);
     }
     public static void gravarPosgres (Context t) {
-
-
     }
-    public static void gravarFicheiro (bd_Ocurrencia o, List<bd_Trajecto> t) {
+    public static void gravarFicheiro (OcurrenciaActual o) {
         try {
             if (!Logs.isExternalStorageWritable() || !Logs.isExternalStorageReadable()) {
                 return;
@@ -56,44 +35,46 @@ public class BDbackup {
             File sdCard = Environment.getExternalStorageDirectory();
             File dir = new File(sdCard.getAbsolutePath() + "/" + Logs.Diretoria);
             dir.mkdirs();
-            File file = new File(dir,"oc_" + o.getId() + "_"+ Formatos.getDataHoraMinSegFormat(o.getHoraInicial()));
+            File file = new File(dir,"oc_"+ Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraInicial()));
             file.createNewFile();
             FileWriter writer = new FileWriter(file, true);
             PrintWriter out = new PrintWriter(writer, true);
             String str = "***********************************************************************";
-            out.println(str);
-            str += "[ ID ]:[" + o.getId() + "]";
-            out.println(str);
-            str += "[ Data Inicial ]:[" + Formatos.getDataHoraMinSegFormat(o.getHoraInicial());
-            out.println(str);
-            str += "[ Data Chegada Local ]:[" + Formatos.getDataHoraMinSegFormat(o.getHoraChegadaSocorro());
-            out.println(str);
-            str += "[ Data Saida Local ]:[" + Formatos.getDataHoraMinSegFormat(o.getHoraSaidaSocorro());
-            out.println(str);
-            str += "[ Data Chegada Hospital ]:[" + Formatos.getDataHoraMinSegFormat(o.getHoraChegadaHospital());
-            out.println(str);
-            str += "[ Data Saida Hospital ]:[" + Formatos.getDataHoraMinSegFormat(o.getHoraFinal());
-            out.println(str);
-            str += "[ Local Inicial ]:[ Lat:" + o.getLatLocalInicial() + " Long:"+ o.getLonLocalInicial()+ "]";
-            out.println(str);
-            str += "[ Local Local ]:[ Lat:" + o.getLatLocalChegadaSocorro() + " Long:"+ o.getLonLocalChegadaSocorro()+ "]";
-            out.println(str);
-            str += "[ Local Hospital ]:[Lat:" + o.getLatHospitalDestino() + " Long:"+ o.getLonHospitalDestino()+ "]";
-            out.println(str);
-            str += "[ Distancia Socorro ]:[" + o.getDistanciaSocorro() + "]";
-            out.println(str);
-            str += "[ Distancia Hospital ]:[" + o.getDistanciaHospital() + "]";
-            out.println(str);
-            str = "***********************************************************************";
-            out.println(str);
-            str = "***********************************************************************";
-            out.println(str);
-            for (bd_Trajecto p: t) {
-                str = "[" + p.getId() + "]:[" + Formatos.getDataHoraMinSegFormat(p.getData()) + "]:[" + p.getLatitude() + "]:[" + p.getLongitude() + "]";
-                out.println(str);
-
+            str +='\n';
+            str += "[ Data Inicial ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraInicial());
+            str +='\n';
+            str += "[ Data Chegada Local ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraChegadaSocorro());
+            str +='\n';
+            str += "[ Data Saida Local ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraSaidaSocorro());
+            str +='\n';
+            str += "[ Data Chegada Hospital ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraChegadaHospital());
+            str +='\n';
+            str += "[ Data Saida Hospital ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraFinal());
+            str +='\n';
+            if(o.getOcurrencia().getLocalInicial() != null)
+                str += "[ Local Inicial ]:[ Lat:" + o.getOcurrencia().getLocalInicial().getLatitude() + " Long:"+ o.getOcurrencia().getLocalInicial().getLongitude()+ "]";
+            str +='\n';
+            if(o.getOcurrencia().getLocalChegadaSocorro() != null)
+                str += "[ Local Local ]:[ Lat:" + o.getOcurrencia().getLocalChegadaSocorro().getLatitude() + " Long:"+ o.getOcurrencia().getLocalChegadaSocorro().getLongitude()+ "]";
+            str +='\n';
+            if(o.getOcurrencia().getHospitalDestino() != null)
+                str += "[ Local Hospital ]:[Lat:" + o.getOcurrencia().getHospitalDestino().getLatitude() + " Long:"+ o.getOcurrencia().getHospitalDestino().getLongitude()+ "]";
+            str +='\n';
+            str += "[ Distancia Socorro ]:[" + o.getOcurrencia().getDistanciaSocorro() + "]";
+            str +='\n';
+            str += "[ Distancia Hospital ]:[" + o.getOcurrencia().getDistanciaHospital() + "]";
+            str +='\n';
+            str += "***********************************************************************";
+            str +='\n';
+            str += "***********************************************************************";
+            str +='\n';
+            for (int i = 0 ; i<o.getPercurso().size();i++) {
+                Posicao p = o.getPercurso().get(i);
+                str += "[" + i + "]:[" + Formatos.getDataHoraMinSegFormat(p.getData()) + "]:[" + p.getLocal().getLatitude() + "]:[" + p.getLocal().getLongitude()+ "]";
+                str +='\n';
             }
-            str = "***********************************************************************";
+            str += "***********************************************************************";
+            str +='\n';
             out.println(str);
             out.close();
             writer.close();
@@ -102,6 +83,19 @@ public class BDbackup {
         }
 
     }
-
-
+    public static void gravarOcurrencia (Context t, OcurrenciaActual o) {
+        bd_Ocurrencia nova = new bd_Ocurrencia(o.getOcurrencia());
+        try {
+            bd_Ocurrencia_Helper todoOpenDatabaseHelper = OpenHelperManager.getHelper(t, bd_Ocurrencia_Helper.class);
+            Dao<bd_Ocurrencia, Long> todoDao = todoOpenDatabaseHelper.getDao_bd_Ocurrencia();
+            todoDao.create(nova);
+            Dao<bd_Trajecto, Long> todoDao2 = todoOpenDatabaseHelper.getDao_bd_Trajecto();
+            for (Posicao p : o.getPercurso()) {
+                bd_Trajecto nova2 = new bd_Trajecto(nova.getId(), p);
+                todoDao2.create(nova2);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

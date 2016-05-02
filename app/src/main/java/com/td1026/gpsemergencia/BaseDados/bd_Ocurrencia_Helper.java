@@ -20,21 +20,19 @@ public class bd_Ocurrencia_Helper extends OrmLiteSqliteOpenHelper
 {
 
 
-    private static final String DATABASE_NAME = "bd_Ocurencia";
+    private static final String DATABASE_NAME = "gpsemergencialocal";
     private static final int DATABASE_VERSION = 1;
 
     /**
      * The data access object used to interact with the Sqlite database to do C.R.U.D operations.
      */
-    private Dao<bd_Ocurrencia, Long> todoDao;
+    private Dao<bd_Ocurrencia, Long>   ocurrenciaDao;
+    private Dao<bd_Trajecto, Long>   trajectoDao;
+
+
 
     public bd_Ocurrencia_Helper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION,
-                /**
-                 * R.raw.ormlite_config is a reference to the ormlite_config.txt file in the
-                 * /res/raw/ directory of this project
-                 * */
-                R.raw.ormlite_config);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
     }
 
     @Override
@@ -45,7 +43,7 @@ public class bd_Ocurrencia_Helper extends OrmLiteSqliteOpenHelper
              * creates the Todo database table
              */
             TableUtils.createTable(connectionSource, bd_Ocurrencia.class);
-
+            TableUtils.createTable(connectionSource, bd_Trajecto.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,6 +57,7 @@ public class bd_Ocurrencia_Helper extends OrmLiteSqliteOpenHelper
              * Recreates the database when onUpgrade is called by the framework
              */
             TableUtils.dropTable(connectionSource, bd_Ocurrencia.class, false);
+            TableUtils.dropTable(connectionSource, bd_Trajecto.class,false);
             onCreate(database, connectionSource);
 
         } catch (SQLException e) {
@@ -71,10 +70,16 @@ public class bd_Ocurrencia_Helper extends OrmLiteSqliteOpenHelper
      * @return
      * @throws SQLException
      */
-    public Dao<bd_Ocurrencia, Long> getDao() throws SQLException {
-        if(todoDao == null) {
-            todoDao = getDao(bd_Ocurrencia.class);
+    public Dao<bd_Ocurrencia, Long> getDao_bd_Ocurrencia() throws SQLException {
+        if(ocurrenciaDao == null) {
+            ocurrenciaDao = getDao(bd_Ocurrencia.class);
         }
-        return todoDao;
+        return ocurrenciaDao;
+    }
+    public Dao<bd_Trajecto, Long> getDao_bd_Trajecto() throws SQLException {
+        if(trajectoDao == null) {
+            trajectoDao = getDao(bd_Trajecto.class);
+        }
+        return trajectoDao;
     }
 }

@@ -6,6 +6,8 @@ import com.td1026.gpsemergencia.Activity_ServicePrincipal;
 import com.td1026.gpsemergencia.BaseDados.Operacoes;
 import com.td1026.gpsemergencia.MetodosAuxiliares.Distancias;
 import com.td1026.gpsemergencia.MetodosAuxiliares.EscritaLeituraFicheiros;
+import com.td1026.gpsemergencia.MetodosAuxiliares.Formatos;
+import com.td1026.gpsemergencia.MetodosAuxiliares.Logs;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -93,6 +95,10 @@ public class OcurrenciaActual
                     GregorianCalendar ultima = new GregorianCalendar();
                     ultima.setTime(percurso.get(percurso.size() - 1).getData());
                     ultima.add(Calendar.MINUTE, configgerais.getTempoLocal());
+                    Logs.fluxo("case 1 if ", actual.before(ultima) + "");
+                    Logs.fluxo("case 1 if ", "actual" + actual.before(ultima) + Formatos.getDataHoraMinSegFormat(actual.getTime()));
+                    Logs.fluxo("case 1 if ", "ultima" + actual.before(ultima) + Formatos.getDataHoraMinSegFormat(percurso.get(percurso.size() - 1).getData()));
+                    Logs.fluxo("case 1 if ", "ultima + 5" + actual.before(ultima) + Formatos.getDataHoraMinSegFormat(ultima.getTime()));
                     if (actual.before(ultima)) {
                         percurso.add(new Posicao(l, d));
                     } else {

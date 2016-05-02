@@ -4,6 +4,7 @@ package com.td1026.gpsemergencia.BaseDados;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.td1026.gpsemergencia.Dados.Posicao;
+import com.td1026.gpsemergencia.MetodosAuxiliares.Formatos;
 
 import java.util.Date;
 
@@ -78,5 +79,13 @@ public class bd_Trajecto {
 
     public void setLongitude(Double longitude) {
         Longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        return "[ Data=" + Formatos.getHoraMinSegFormat(Data) +
+                ", Lat=" + Latitude +
+                ", Lon=" + Longitude +
+                '}';
     }
 }
