@@ -32,9 +32,9 @@ public class OcurrenciaActual
     //2 - Local de socorro
     //3 - Caminho do hospital
     //4 - Hospital
-    private int estadoocurrencia;
+    private int estadoocorrencia;
     private List<Posicao> percurso;
-    private Dados_Ocurrencia ocurrencia;
+    private Dados_Ocurrencia ocorrencia;
     private int indexChegadalocal = -1;
     private int indexSaidalocal = -1;
     private int indexChegadaHospital = -1;
@@ -46,18 +46,18 @@ public class OcurrenciaActual
     public OcurrenciaActual(Activity_ServicePrincipal c) throws IOException {
         configgerais = EscritaLeituraFicheiros.LerConfigGerais();
         listaHospitais = EscritaLeituraFicheiros.LerHospitais();
-        estadoocurrencia = 1;
+        estadoocorrencia = 1;
         percurso = new ArrayList<>();
-        ocurrencia = new Dados_Ocurrencia();
-        ocurrencia.setHoraInicial(new Date());
+        ocorrencia = new Dados_Ocurrencia();
+        ocorrencia.setHoraInicial(new Date());
         t = c;
     }
 
     //--------------------------------------------------------------------------------------
     //-------------------------------------------Gets e Sets-------------------------------------------
 
-    public Dados_Ocurrencia getOcurrencia() {
-        return ocurrencia;
+    public Dados_Ocurrencia getOcorrencia() {
+        return ocorrencia;
     }
     public List<Posicao> getPercurso() {
         return percurso;
@@ -71,21 +71,21 @@ public class OcurrenciaActual
     public int getIndexChegadaHospital() {
         return indexChegadaHospital;
     }
-    public int getEstadoocurrencia() {
-        return estadoocurrencia;
+    public int getEstadoocorrencia() {
+        return estadoocorrencia;
     }
 
     //--------------------------------------------------------------------------------------
     //-------------------------------------------Metodos-------------------------------------------
 
     public boolean addPercurso(Location l, Date d) throws SQLException {
-        switch (estadoocurrencia)
+        switch (estadoocorrencia)
         {
             case 1:
                 //se percurso vazio
                 if (percurso.isEmpty()) {
                     percurso.add(new Posicao(l, d));
-                    ocurrencia.setLocalInicial(l);
+                    ocorrencia.setLocalInicial(l);
                 }
                 else
                 {
@@ -97,14 +97,14 @@ public class OcurrenciaActual
                     ultima.add(Calendar.MINUTE, configgerais.getTempoLocal());
                     Logs.fluxo("case 1 if ", actual.before(ultima) + "");
                     Logs.fluxo("case 1 if ", "actual" + actual.before(ultima) + Formatos.getDataHoraMinSegFormat(actual.getTime()));
-                    Logs.fluxo("case 1 if ", "ultima" + actual.before(ultima) + Formatos.getDataHoraMinSegFormat(percurso.get(percurso.size() - 1).getData()));
-                    Logs.fluxo("case 1 if ", "ultima + 5" + actual.before(ultima) + Formatos.getDataHoraMinSegFormat(ultima.getTime()));
+                    Logs.fluxo("case 1 if ", "última" + actual.before(ultima) + Formatos.getDataHoraMinSegFormat(percurso.get(percurso.size() - 1).getData()));
+                    Logs.fluxo("case 1 if ", "última + 5" + actual.before(ultima) + Formatos.getDataHoraMinSegFormat(ultima.getTime()));
                     if (actual.before(ultima)) {
                         percurso.add(new Posicao(l, d));
                     } else {
-                        ocurrencia.setLocalChegadaSocorro(percurso.get(percurso.size() - 1).getLocal());
-                        ocurrencia.setHoraChegadaSocorro(percurso.get(percurso.size() - 1).getData());
-                        estadoocurrencia = 2;
+                        ocorrencia.setLocalChegadaSocorro(percurso.get(percurso.size() - 1).getLocal());
+                        ocorrencia.setHoraChegadaSocorro(percurso.get(percurso.size() - 1).getData());
+                        estadoocorrencia = 2;
                         indexChegadalocal = percurso.size()-1;
                     }
                 }
@@ -112,13 +112,13 @@ public class OcurrenciaActual
             case 2:
                 //ver se me mexi mais de metros
                 if (Distancias.DistanciaEntrePontos(
-                        ocurrencia.getLocalChegadaSocorro().getLatitude(),
-                        ocurrencia.getLocalChegadaSocorro().getLongitude(),
+                        ocorrencia.getLocalChegadaSocorro().getLatitude(),
+                        ocorrencia.getLocalChegadaSocorro().getLongitude(),
                         l.getLatitude(),
                         l.getLongitude()) >= configgerais.getDistanciaLocal() )
                 {
-                    ocurrencia.setHoraSaidaSocorro(d);
-                    estadoocurrencia = 3;
+                    ocorrencia.setHoraSaidaSocorro(d);
+                    estadoocorrencia = 3;
                     indexSaidalocal=percurso.size()-1;
                 }
                 else
@@ -141,9 +141,9 @@ public class OcurrenciaActual
                         ultima.setTime(percurso.get(percurso.size()-1).getData());
                         ultima.add(Calendar.MINUTE,configgerais.getTempoHospital());
                         if(actual.after(ultima)) {
-                            ocurrencia.setHoraChegadaHospital(percurso.get(percurso.size()-1).getData());
-                            ocurrencia.setHospitalDestino(h);
-                            estadoocurrencia = 4;
+                            ocorrencia.setHoraChegadaHospital(percurso.get(percurso.size()-1).getData());
+                            ocorrencia.setHospitalDestino(h);
+                            estadoocorrencia = 4;
                             indexChegadaHospital=percurso.size()-1;
                         }
                         else
@@ -156,14 +156,14 @@ public class OcurrenciaActual
             case 5:
                 // ja sai do hospital metros
                 if (Distancias.DistanciaEntrePontos(
-                        ocurrencia.getHospitalDestino().getLatitude(),
-                        ocurrencia.getHospitalDestino().getLongitude(),
+                        ocorrencia.getHospitalDestino().getLatitude(),
+                        ocorrencia.getHospitalDestino().getLongitude(),
                         l.getLatitude(),
                         l.getLongitude()) >= configgerais.getDistanciaHospital())
                 {
-                    ocurrencia.setHoraFinal(d);
-                    estadoocurrencia = 0;
-                    ocurrencia = Operacoes.PrepararOcurrencia(percurso, ocurrencia, indexChegadalocal, indexSaidalocal, indexChegadaHospital);
+                    ocorrencia.setHoraFinal(d);
+                    estadoocorrencia = 0;
+                    ocorrencia = Operacoes.PrepararOcurrencia(percurso, ocorrencia, indexChegadalocal, indexSaidalocal, indexChegadaHospital);
                     t.showNotification();
                     return false;
                 }
@@ -176,26 +176,26 @@ public class OcurrenciaActual
     }
     public boolean proximoEstado() throws SQLException {
 
-        switch(estadoocurrencia)
+        switch(estadoocorrencia)
         {
             case 1:
-                ocurrencia.setHoraChegadaSocorro(new Date());
-                estadoocurrencia = 2;
+                ocorrencia.setHoraChegadaSocorro(new Date());
+                estadoocorrencia = 2;
                 indexChegadalocal=percurso.size();
                 break;
             case 2:
-                ocurrencia.setHoraSaidaSocorro(new Date());
-                estadoocurrencia = 3;
+                ocorrencia.setHoraSaidaSocorro(new Date());
+                estadoocorrencia = 3;
                 indexSaidalocal=percurso.size();
                 break;
             case 3:
-                ocurrencia.setHoraChegadaHospital(new Date());
-                estadoocurrencia = 4;
+                ocorrencia.setHoraChegadaHospital(new Date());
+                estadoocorrencia = 4;
                 indexChegadaHospital=percurso.size();
                 break;
             case 4:
-                ocurrencia.setHoraFinal(new Date());
-                estadoocurrencia = 0;
+                ocorrencia.setHoraFinal(new Date());
+                estadoocorrencia = 0;
                 t.showNotification();
                 return false;
         }
@@ -204,19 +204,19 @@ public class OcurrenciaActual
     }
     @Override
     public String toString() {
-        String str = "Estado Da Ocurrencia = " ;
+        String str = "Estado Da Ocorrência = " ;
         str +=getEstadoString();
         str +=" \n\n";
         str +="Tamanho do Percurso = " + percurso.size();
         str +=" \n\n";
-        str += ocurrencia.toString();
+        str += ocorrencia.toString();
 
         return str;
     }
     public String getEstadoString()
     {
         String str = "";
-        switch(estadoocurrencia)
+        switch(estadoocorrencia)
         {
             case 0:
                 str += "Disponivel";

@@ -116,7 +116,7 @@ public class Dados_Ocurrencia
 
     @Override
     public String toString() {
-        return "Dados_Ocurrencia{" +"\n" +
+        return "Dados_Ocorrencia{" +"\n" +
                 "HoraInicial=" + HoraInicial + "\n" +
                 ", LocalInicial=" + LocalInicial +"\n" +
                 ", HoraChegadaSocorro=" + HoraChegadaSocorro +"\n" +

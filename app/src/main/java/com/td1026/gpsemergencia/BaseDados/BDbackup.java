@@ -35,34 +35,34 @@ public class BDbackup {
             File sdCard = Environment.getExternalStorageDirectory();
             File dir = new File(sdCard.getAbsolutePath() + "/" + Logs.Diretoria);
             dir.mkdirs();
-            File file = new File(dir,"oc_"+ Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraInicial()));
+            File file = new File(dir,"oc_"+ Formatos.getDataHoraMinSegFormat(o.getOcorrencia().getHoraInicial()));
             file.createNewFile();
             FileWriter writer = new FileWriter(file, true);
             PrintWriter out = new PrintWriter(writer, true);
             String str = "***********************************************************************";
             str +='\n';
-            str += "[ Data Inicial ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraInicial());
+            str += "[ Data Inicial ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcorrencia().getHoraInicial());
             str +='\n';
-            str += "[ Data Chegada Local ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraChegadaSocorro());
+            str += "[ Data Chegada Local ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcorrencia().getHoraChegadaSocorro());
             str +='\n';
-            str += "[ Data Saida Local ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraSaidaSocorro());
+            str += "[ Data Saida Local ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcorrencia().getHoraSaidaSocorro());
             str +='\n';
-            str += "[ Data Chegada Hospital ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraChegadaHospital());
+            str += "[ Data Chegada Hospital ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcorrencia().getHoraChegadaHospital());
             str +='\n';
-            str += "[ Data Saida Hospital ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcurrencia().getHoraFinal());
+            str += "[ Data Saida Hospital ]:[" + Formatos.getDataHoraMinSegFormat(o.getOcorrencia().getHoraFinal());
             str +='\n';
-            if(o.getOcurrencia().getLocalInicial() != null)
-                str += "[ Local Inicial ]:[ Lat:" + o.getOcurrencia().getLocalInicial().getLatitude() + " Long:"+ o.getOcurrencia().getLocalInicial().getLongitude()+ "]";
+            if(o.getOcorrencia().getLocalInicial() != null)
+                str += "[ Local Inicial ]:[ Lat:" + o.getOcorrencia().getLocalInicial().getLatitude() + " Long:"+ o.getOcorrencia().getLocalInicial().getLongitude()+ "]";
             str +='\n';
-            if(o.getOcurrencia().getLocalChegadaSocorro() != null)
-                str += "[ Local Local ]:[ Lat:" + o.getOcurrencia().getLocalChegadaSocorro().getLatitude() + " Long:"+ o.getOcurrencia().getLocalChegadaSocorro().getLongitude()+ "]";
+            if(o.getOcorrencia().getLocalChegadaSocorro() != null)
+                str += "[ Local Local ]:[ Lat:" + o.getOcorrencia().getLocalChegadaSocorro().getLatitude() + " Long:"+ o.getOcorrencia().getLocalChegadaSocorro().getLongitude()+ "]";
             str +='\n';
-            if(o.getOcurrencia().getHospitalDestino() != null)
-                str += "[ Local Hospital ]:[Lat:" + o.getOcurrencia().getHospitalDestino().getLatitude() + " Long:"+ o.getOcurrencia().getHospitalDestino().getLongitude()+ "]";
+            if(o.getOcorrencia().getHospitalDestino() != null)
+                str += "[ Local Hospital ]:[Lat:" + o.getOcorrencia().getHospitalDestino().getLatitude() + " Long:"+ o.getOcorrencia().getHospitalDestino().getLongitude()+ "]";
             str +='\n';
-            str += "[ Distancia Socorro ]:[" + o.getOcurrencia().getDistanciaSocorro() + "]";
+            str += "[ Distancia Socorro ]:[" + o.getOcorrencia().getDistanciaSocorro() + "]";
             str +='\n';
-            str += "[ Distancia Hospital ]:[" + o.getOcurrencia().getDistanciaHospital() + "]";
+            str += "[ Distancia Hospital ]:[" + o.getOcorrencia().getDistanciaHospital() + "]";
             str +='\n';
             str += "***********************************************************************";
             str +='\n';
@@ -84,7 +84,7 @@ public class BDbackup {
 
     }
     public static void gravarOcurrencia (Context t, OcurrenciaActual o) {
-        bd_Ocurrencia nova = new bd_Ocurrencia(o.getOcurrencia());
+        bd_Ocurrencia nova = new bd_Ocurrencia(o.getOcorrencia());
         try {
             bd_Ocurrencia_Helper todoOpenDatabaseHelper = OpenHelperManager.getHelper(t, bd_Ocurrencia_Helper.class);
             Dao<bd_Ocurrencia, Long> todoDao = todoOpenDatabaseHelper.getDao_bd_Ocurrencia();
