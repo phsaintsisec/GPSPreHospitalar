@@ -2,6 +2,7 @@ package com.td1026.gpsemergencia.Dados;
 
 import android.location.Location;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -116,17 +117,53 @@ public class Dados_Ocurrencia
 
     @Override
     public String toString() {
-        return "Dados_Ocorrencia{" +"\n" +
-                "HoraInicial=" + HoraInicial + "\n" +
-                ", LocalInicial=" + LocalInicial +"\n" +
-                ", HoraChegadaSocorro=" + HoraChegadaSocorro +"\n" +
-                ", LocalChegadaSocorro=" + LocalChegadaSocorro +"\n" +
-                ", HoraSaidaSocorro=" + HoraSaidaSocorro +"\n" +
-                ", HoraChegadaHospital=" + HoraChegadaHospital +"\n" +
-                ", HospitalDestino=" + HospitalDestino +"\n" +
-                ", HoraFinal=" + HoraFinal +"\n" +
-                ", DistanciaSocorro=" + DistanciaSocorro +"\n" +
-                ", DistanciaHospital=" + DistanciaHospital +"\n" +
-                '}';
+        SimpleDateFormat dt = new SimpleDateFormat("HH:mm:ss");
+        String str = "Ocurrencia : " +"\n";
+
+
+            if (HoraInicial == null)
+                str += "HoraInicial\t\t\t=" + "--:--:-- \n";
+            else
+                str += "HoraInicial\t\t\t=" + dt.format(HoraInicial )+ "\n" ;
+            if (HoraChegadaSocorro == null)
+                str += "HoraChegadaSocorro\t=" + "--:--:-- \n";
+            else
+                str += "HoraChegadaSocorro\t=" + dt.format(HoraChegadaSocorro) +"\n" ;
+            if (HoraSaidaSocorro == null)
+                str += "HoraSaidaSocorro\t=" + "--:--:-- \n";
+            else
+                str += "HoraSaidaSocorro\t=" + dt.format(HoraSaidaSocorro) +"\n" ;
+            if (HoraChegadaHospital == null)
+                str += "HoraChegadaHospital\t=" + "--:--:-- \n";
+            else
+                str += "HoraChegadaHospital\t=" + dt.format(HoraChegadaHospital) +"\n" ;
+            if (HoraFinal == null)
+                str += "HoraFinal\t\t\t=" + "--:--:-- \n";
+            else
+                str += "HoraFinal\t\t\t=" + dt.format(HoraFinal) +"\n" ;
+
+
+            str +="\n" ;
+
+            if (LocalInicial == null)
+                str += "Local Inicial = " + "------ \n";
+            else {
+                str += "Local Inicial Latitude  = " + LocalInicial.getLatitude() + "\n";
+                str += "Local Inicial Longitude = " + LocalInicial.getLongitude() + "\n";
+            }
+            if (LocalChegadaSocorro == null)
+                str += "Local Socorro =" + "------ \n";
+            else {
+                str += "Local Socorro Latitude =" + LocalChegadaSocorro.getLatitude() + "\n";
+                str +=  "Local Socorro Longitude =" + LocalChegadaSocorro.getLongitude() + "\n";
+            }
+            if (HospitalDestino == null)
+                str += "Hospital =" + "------ \n";
+            else {
+                str += "Hospital Nome =" + HospitalDestino.getNome() + "\n" ;
+                str += "Hospital Latitude =" + HospitalDestino.getLatitude() + "\n" ;
+                str += "Hospital Longitude =" + HospitalDestino.getLongitude() + "\n \n";
+            }
+        return str;
     }
 }

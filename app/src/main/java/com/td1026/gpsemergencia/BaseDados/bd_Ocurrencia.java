@@ -145,19 +145,17 @@ public class bd_Ocurrencia
     public String toString() {
         String aux =
                 "id=" + id +"\n" +"\n" +
-                "Hora de Inicial  =  " + Formatos.getDataHoraMinSegFormat(HoraInicial) +"\n" +"\n" +
-                "Hora de Chegada ao Local do Socorro  =  " + Formatos.getDataHoraMinSegFormat(HoraChegadaSocorro) +"\n" +"\n" +
-                "Hora de Saida do Localdo Socorro  =  " + Formatos.getDataHoraMinSegFormat(HoraSaidaSocorro) +"\n" +"\n" +
-                "Hora de Chegada ao Hospital  =  " + Formatos.getDataHoraMinSegFormat(HoraChegadaHospital) +"\n" +"\n" +
-                "Hora de Saida do Hospital  =  " + Formatos.getDataHoraMinSegFormat(HoraFinal) +"\n" +"\n" +
+                "Hora de Inicial  =  " + Formatos.getHoraMinSegFormat(HoraInicial) +"\n" +"\n" +
+                "Hora de Chegada ao Local do Socorro  =  " + Formatos.getHoraMinSegFormat(HoraChegadaSocorro) +"\n" +"\n" +
+                "Hora de Saida do Localdo Socorro  =  " + Formatos.getHoraMinSegFormat(HoraSaidaSocorro) +"\n" +"\n" +
+                "Hora de Chegada ao Hospital  =  " + Formatos.getHoraMinSegFormat(HoraChegadaHospital) +"\n" +"\n" +
+                "Hora de Saida do Hospital  =  " + Formatos.getHoraMinSegFormat(HoraFinal) +"\n" +"\n" +"\n" +"\n" +
                 "Latitude do Local Inicial  =  " + LatLocalInicial +"\n" +"\n" +
                 "Longitude do Local Inicial  =  " + LonLocalInicial +"\n" +"\n" +
                 "Latitude do Local de Socorro  =  " + LatLocalChegadaSocorro +"\n" +"\n" +
                 "Longitude do Local de Socorro  =  " + LonLocalChegadaSocorro +"\n" +"\n" +
                 "Latitude do Hospital de Destino  =  " + LatHospitalDestino +"\n" +"\n" +
                 "Longitude do Hospital de Destino  =  " + LonHospitalDestino +"\n" +"\n" +
-                "Distancia Percorrida ate ao Local de Socorro  =  " + DistanciaSocorro +" Km" +"\n" +"\n" +
-                "Distancia Percorrida ate ao Hospital  =  " + DistanciaHospital +" Km"+"\n" +"\n" +
                 "Enviado para Servidor  =  " ;
 
         if(Enviado)

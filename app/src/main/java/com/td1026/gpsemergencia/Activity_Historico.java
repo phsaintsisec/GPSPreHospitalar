@@ -42,7 +42,6 @@ public class Activity_Historico extends AppCompatActivity {
         try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_historico);
-            Logs.fluxo(this.getLocalClassName(), "onCreate");
             item = null;
 
             //----Ler dados da base de dados
@@ -93,15 +92,10 @@ public class Activity_Historico extends AppCompatActivity {
                                                 //Abrir Janela popup
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(t);
                                                 final int finalIndex = index;
-
                                                 List<bd_Trajecto> lista;
                                                 Dao<bd_Trajecto, Long> todoDaoTrajecto = todoOpenDatabaseHelper.getDao_bd_Trajecto();
                                                 lista = todoDaoTrajecto.queryForEq("id_ocorrencia",aux.get(finalIndex).getId());
                                                 String str = "\n\nPercurso:    (Total)"+ lista.size()+"\n\n";
-                                                for (bd_Trajecto p : lista) {
-                                                    str += p.toString();
-                                                    str += '\n';
-                                                }
                                                 builder
                                                         .setTitle(getString(R.string.lb_DescricaodaOcurrencia))
                                                         .setMessage(aux.get(finalIndex).toString() + str)

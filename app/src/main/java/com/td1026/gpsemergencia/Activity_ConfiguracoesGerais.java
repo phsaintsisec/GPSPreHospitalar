@@ -29,8 +29,6 @@ public class Activity_ConfiguracoesGerais extends AppCompatActivity {
             setContentView(R.layout.activity_activity__configuracoes_gerais);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-            Logs.fluxo(this.getLocalClassName(), "onCreate");
-
             //Definir Click de botao
             final Button btaddhospital = (Button) findViewById(R.id.cg_bt_Submeter);
             btaddhospital.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +77,6 @@ public class Activity_ConfiguracoesGerais extends AppCompatActivity {
     {
         try {
             super.onResume();
-            Logs.fluxo(this.getLocalClassName(), "onResume");
             TextView tv_DistanciaLocal = (TextView) findViewById(R.id.cg_et_RaioLocal);
             TextView tv_DistanciaHospital = (TextView) findViewById(R.id.cg_et_RaioHospital);
             TextView tv_TempoLocal = (TextView) findViewById(R.id.cg_et_TempoLocal);

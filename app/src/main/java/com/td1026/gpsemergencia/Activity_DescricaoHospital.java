@@ -32,8 +32,6 @@ public class Activity_DescricaoHospital extends AppCompatActivity {
             setContentView(R.layout.activity_descricao_hospital);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-            Logs.fluxo(this.getLocalClassName(), "onCreate");
-
             //defenir click do butao
             Button btaddhospital = (Button) findViewById(R.id.dh_bt_Submeter);
             btaddhospital.setOnClickListener(new View.OnClickListener() {

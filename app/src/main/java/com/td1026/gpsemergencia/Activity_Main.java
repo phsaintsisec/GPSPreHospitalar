@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,9 +25,21 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 import com.td1026.gpsemergencia.BaseDados.BDbackup;
+import com.td1026.gpsemergencia.BaseDados.SQLPostgre;
+import com.td1026.gpsemergencia.BaseDados.bd_Ocurrencia;
+import com.td1026.gpsemergencia.BaseDados.bd_Ocurrencia_Helper;
+import com.td1026.gpsemergencia.BaseDados.bd_Trajecto;
+import com.td1026.gpsemergencia.MetodosAuxiliares.EscritaLeituraFicheiros;
 import com.td1026.gpsemergencia.MetodosAuxiliares.Logs;
 import com.td1026.gpsemergencia.MetodosAuxiliares.Permissoes;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 public class Activity_Main extends AppCompatActivity {
 
@@ -34,8 +47,6 @@ public class Activity_Main extends AppCompatActivity {
     //------------------------------------Variaveis-----------------------------------------
     //--------------------------------------------------------------------------------------
     LocationListener locationlistener;
-
-    //teste
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
     //---------------------------------Metodos da Classe------------------------------------
@@ -43,7 +54,6 @@ public class Activity_Main extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Logs.fluxo(this.getLocalClassName(), "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -174,6 +184,17 @@ public class Activity_Main extends AppCompatActivity {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivityForResult(intent, 1);
         }
+        //-----Pedir Permisao para utilizar Armazenamento---------------------
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+        }
+
         //-----Receber dados de GPS---------------------
         LocationManager locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationlistener = new LocationListener() {
@@ -217,7 +238,8 @@ public class Activity_Main extends AppCompatActivity {
             startActivity(i);
         }
         if (id == R.id.menu_guardar) {
-            BDbackup.gravarPosgres(this);
+            SQLPostgre.gravarOcorrenciasnaoenviadas(this);
+            //SQLPostgre.teste();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -226,7 +248,6 @@ public class Activity_Main extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Logs.fluxo(this.getPackageName(), "onDestroy");
         //Deixar de receber dados de gps
         if (locationlistener != null) {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

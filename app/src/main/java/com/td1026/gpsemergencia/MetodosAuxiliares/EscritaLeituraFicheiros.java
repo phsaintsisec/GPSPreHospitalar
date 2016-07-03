@@ -1,6 +1,13 @@
 package com.td1026.gpsemergencia.MetodosAuxiliares;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+import com.td1026.gpsemergencia.Activity_Main;
 import com.td1026.gpsemergencia.Dados.ConfigGerais;
 import com.td1026.gpsemergencia.Dados.Hospital;
 import java.io.BufferedReader;
@@ -11,6 +18,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 /**
  * Created by Telmo on 01/11/2015.

@@ -25,6 +25,8 @@ public class bd_Trajecto {
     private Double Latitude;
     @DatabaseField
     private Double Longitude;
+    @DatabaseField
+    private float Velocidade;
 
     public bd_Trajecto() {
     }
@@ -33,12 +35,14 @@ public class bd_Trajecto {
         Data = p.getData();
         Latitude = p.getLocal().getLatitude();
         Longitude = p.getLocal().getLongitude();
+        Velocidade = p.getLocal().getSpeed();
     }
-    public bd_Trajecto(Long id_ocorrencia, Date data, Double latitude, Double longitude) {
+    public bd_Trajecto(Long id_ocorrencia, Date data, Double latitude, Double longitude,float velocidade) {
         this.id_ocorrencia = id_ocorrencia;
         Data = data;
         Latitude = latitude;
         Longitude = longitude;
+        Velocidade = velocidade;
     }
 
     public Long getId() {
@@ -81,11 +85,20 @@ public class bd_Trajecto {
         Longitude = longitude;
     }
 
+    public float getVelocidade() {
+        return Velocidade;
+    }
+
+    public void setVelocidade(float velocidade) {
+        Velocidade = velocidade;
+    }
+
     @Override
     public String toString() {
         return "[ Data=" + Formatos.getHoraMinSegFormat(Data) +
                 ", Lat=" + Latitude +
                 ", Lon=" + Longitude +
+                ", Vel=" + Velocidade +
                 '}';
     }
 }

@@ -14,7 +14,9 @@ import java.util.Date;
 public class Logs
 {
     //-------------------------------------------Variaveis-------------------------------------------
-    private static String NomeFicheiroLogs = "Logs.txt";
+    private static String NomeFicheiroLogsErros = "Erros.txt";
+    private static String NomeFicheiroLogsInfo = "Info.txt";
+    private static String NomeFicheiroLogsFluxo = "Fluxo.txt";
     public static String Diretoria = "GPSEmergencia";
 
     //-------------------------------------------Metodos-------------------------------------------
@@ -28,7 +30,7 @@ public class Logs
         return Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
-    private static void EscreverLogs(String context,String msg,String tipo){
+    private static void EscreverLogs(String context,String msg,String tipo,String NomeFicheiroLogs ){
         try {
             if (!isExternalStorageWritable() || !isExternalStorageReadable()) {
                 return;
@@ -55,18 +57,15 @@ public class Logs
     }
     public static void info(String context , String msg)
     {
-        EscreverLogs(context,msg,"info");
+        EscreverLogs(context,msg,"info",NomeFicheiroLogsInfo);
     }
     public static void erro(String context , String msg)
     {
-        EscreverLogs(context,msg,"erro");
+        EscreverLogs(context,msg,"erro", NomeFicheiroLogsErros);
     }
     public static void fluxo(String context , String msg)
     {
-        EscreverLogs(context,msg,"fluxo");
-    }
-    public static void valores(String context , String msg) {
-        EscreverLogs(context,msg,"valores");
+        EscreverLogs(context,msg,"fluxo", NomeFicheiroLogsFluxo);
     }
 
 

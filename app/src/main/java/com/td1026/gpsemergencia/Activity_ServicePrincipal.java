@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.td1026.gpsemergencia.BaseDados.BDbackup;
 import com.td1026.gpsemergencia.Dados.OcurrenciaActual;
+import com.td1026.gpsemergencia.MetodosAuxiliares.EscritaLeituraFicheiros;
 import com.td1026.gpsemergencia.MetodosAuxiliares.Logs;
 
 import java.util.Date;
@@ -42,9 +43,10 @@ public class Activity_ServicePrincipal extends Service {
 
     @Override
     public void onCreate() {
-        Logs.fluxo("Activity_ServicePrincipal", "onCreate");
         try {
             super.onCreate();
+
+
             //-----------Iniciar os Dados---------------------
             DADOS = new OcurrenciaActual(this);
             //-----------Receber os dados de Gps--------------
@@ -53,13 +55,14 @@ public class Activity_ServicePrincipal extends Service {
                 public void onLocationChanged(Location location) {
                     try {
                         //Se addpercurso returna falso  = fim do percurso
+                        System.out.println("---------lister-----------" + location);
                         if (!DADOS.addPercurso(location, new Date())) {
                             GUARDAR = true;
                             //Destruir Servico
                             onDestroy();
                         }
                     } catch (Exception e) {
-                        Logs.erro(t.getPackageName(), e.getMessage());
+                       System.out.println(e);
                     }
                 }
                 public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -95,7 +98,6 @@ public class Activity_ServicePrincipal extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Logs.fluxo(this.getPackageName(), "onDestroy");
         //Deixar de receber dados de gps
         if (locationlistener != null) {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

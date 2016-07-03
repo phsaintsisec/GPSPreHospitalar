@@ -42,8 +42,6 @@ public class Activity_Hospitais extends AppCompatActivity {
         setContentView(R.layout.activity_hospitais);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Logs.fluxo(this.getLocalClassName(), "onCreate");
-
         //----Defenir clicl de botao
         Button btaddhospital = (Button) findViewById(R.id.ch_bt_AdicionarHospital);
         btaddhospital.setOnClickListener(new View.OnClickListener() {
@@ -58,8 +56,6 @@ public class Activity_Hospitais extends AppCompatActivity {
     protected void onResume() {
         try {
             super.onResume();
-            Logs.fluxo(this.getLocalClassName(), "onResume");
-
             item = null;
             //----Carregar Dados
             List<Hospital> listhospital = null;
